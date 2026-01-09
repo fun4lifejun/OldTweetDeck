@@ -12,6 +12,9 @@ if(location.hostname === 'twitter.com' && location.pathname === '/i/tweetdeck') 
     location.replace(`https://x.com/i/tweetdeck`)
 }
 
+// ツイート表示の文字数閾値（この値を超えると切り詰めてExpand tweetリンクを表示）
+const EXPAND_TWEET_THRESHOLD = 140;
+
 function expandTweet(e, tweet_id) {
     e.preventDefault();
     e.target.innerText = "Loading...";
@@ -37339,12 +37342,17 @@ document.body.addEventListener("click", function (e) {
                 return TD.controller.filterManager.pass(this, e);
             }),
             (TD.services.ChirpBase.prototype._generateHTMLText = function () {
-                this.htmlText = TD.util.transform(this.text);
                 if (this.text && this.user && this.id) {
                     let textLength = this.text.replace(/\n/g, "  ").length;
-                    if (textLength > 140) {
+                    if (textLength > EXPAND_TWEET_THRESHOLD) {
+                        let truncatedText = this.text.substr(0, EXPAND_TWEET_THRESHOLD) + "…";
+                        this.htmlText = TD.util.transform(truncatedText);
                         this.htmlText += ` <a href="https://twitter.com/${this.user.screenName}/status/${this.id}" onclick="expandTweet(event, '${this.id}')">Expand tweet</a>`;
+                    } else {
+                        this.htmlText = TD.util.transform(this.text);
                     }
+                } else {
+                    this.htmlText = TD.util.transform(this.text);
                 }
             }),
             (TD.services.ChirpBase.prototype.createdPretty = function () {
@@ -37721,12 +37729,15 @@ document.body.addEventListener("click", function (e) {
                 } else this.withPrettyEngagements = !1;
             }),
             (TD.services.TwitterStatus.prototype._generateHTMLText = function () {
-                this.htmlText = TD.util.transform(this.text, this.entities);
                 let cleanText = this.text.replace(/ https:\/\/t.co\/[a-zA-Z0-9\-]{8,10}$/, "");
                 let textLength = cleanText.replace(/\n/g, "  ").length;
-                if (textLength > 140 || cleanText.endsWith("…")) {
+                if (textLength > EXPAND_TWEET_THRESHOLD || cleanText.endsWith("…")) {
+                    let truncatedText = this.text.substr(0, EXPAND_TWEET_THRESHOLD) + "…";
+                    this.htmlText = TD.util.transform(truncatedText, this.entities);
                     let id = this.retweetedStatus ? this.retweetedStatus.id : this.id;
                     this.htmlText += ` <a href="https://twitter.com/${this.user.screenName}/status/${id}" onclick="expandTweet(event, '${id}')">Expand tweet</a>`;
+                } else {
+                    this.htmlText = TD.util.transform(this.text, this.entities);
                 }
             }),
             (TD.services.TwitterStatus.prototype.getMainUser = function () {
