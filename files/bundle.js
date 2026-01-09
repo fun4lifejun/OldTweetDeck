@@ -13,7 +13,7 @@ if(location.hostname === 'twitter.com' && location.pathname === '/i/tweetdeck') 
 }
 
 // ツイート表示の文字数閾値（この値を超えると切り詰めてExpand tweetリンクを表示）
-const EXPAND_TWEET_THRESHOLD = 140;
+const EXPAND_TWEET_THRESHOLD = 100;
 
 function expandTweet(e, tweet_id) {
     e.preventDefault();
