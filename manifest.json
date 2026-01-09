@@ -1,6 +1,6 @@
 {
     "name": "OldTweetDeck",
-    "description": "Returns old TweetDeck!",
+    "description": "Returns old TweetDeck! forked local",
     "version": "4.3.9",
     "manifest_version": 3,
     "homepage_url": "https://github.com/dimdenGD/OldTweetDeck",
