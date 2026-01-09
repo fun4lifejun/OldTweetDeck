@@ -37340,6 +37340,12 @@ document.body.addEventListener("click", function (e) {
             }),
             (TD.services.ChirpBase.prototype._generateHTMLText = function () {
                 this.htmlText = TD.util.transform(this.text);
+                if (this.text && this.user && this.id) {
+                    let textLength = this.text.replace(/\n/g, "  ").length;
+                    if (textLength > 140) {
+                        this.htmlText += ` <a href="https://twitter.com/${this.user.screenName}/status/${this.id}" onclick="expandTweet(event, '${this.id}')">Expand tweet</a>`;
+                    }
+                }
             }),
             (TD.services.ChirpBase.prototype.createdPretty = function () {
                 return TD.util.prettyDate(this.created);
@@ -37716,12 +37722,11 @@ document.body.addEventListener("click", function (e) {
             }),
             (TD.services.TwitterStatus.prototype._generateHTMLText = function () {
                 this.htmlText = TD.util.transform(this.text, this.entities);
-                let cleanText = this.text.replace(/\shttps:\/\/t.co\/[a-zA-Z0-9\-]{8,10}$/, "");
-                if (cleanText.endsWith("…")) {
-                    if (this.text.length >= 100 && this.text.length < 400) {
-                        let id = this.retweetedStatus ? this.retweetedStatus.id : this.id;
-                        this.htmlText += ` <a href="https://twitter.com/${this.user.screenName}/status/${id}" onclick="expandTweet(event, '${id}')">Expand tweet</a>`;
-                    }
+                let cleanText = this.text.replace(/ https:\/\/t.co\/[a-zA-Z0-9\-]{8,10}$/, "");
+                let textLength = cleanText.replace(/\n/g, "  ").length;
+                if (textLength > 140 || cleanText.endsWith("…")) {
+                    let id = this.retweetedStatus ? this.retweetedStatus.id : this.id;
+                    this.htmlText += ` <a href="https://twitter.com/${this.user.screenName}/status/${id}" onclick="expandTweet(event, '${id}')">Expand tweet</a>`;
                 }
             }),
             (TD.services.TwitterStatus.prototype.getMainUser = function () {
