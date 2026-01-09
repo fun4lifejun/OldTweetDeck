@@ -3,3 +3,10 @@ node_modules/
 files/output/
 build/
 .DS_Store
+.claude/
+CLAUDE.md
+
+# planning-with-files skill
+plan.md
+progress.md
+knowledge.md
