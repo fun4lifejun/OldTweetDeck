@@ -161,27 +161,28 @@ async function main() {
     twitter_text_script.innerHTML = twitter_text.value;
     document.head.appendChild(twitter_text_script);
 
-    (async () => {
-        try {
-            const additionalScripts = await fetch("https://oldtd.org/api/scripts", {
-                headers: otdtoken ? {
-                    Authorization: `Bearer ${otdtoken}`
-                } : undefined
-            }).then(r => r.json());
-            for(let script of additionalScripts) {
-                let scriptSource = await fetch(`https://oldtd.org/api/scripts/${script}`, {
-                    headers: otdtoken ? {
-                        Authorization: `Bearer ${otdtoken}`
-                    } : undefined
-                }).then(r => r.text());
-                let scriptElement = document.createElement("script");
-                scriptElement.innerHTML = scriptSource;
-                document.head.appendChild(scriptElement);
-            }
-        } catch(e) {
-            console.error(e);
-        }
-    })();
+    // 無効化: oldtd.org からの追加スクリプト取得（セキュリティ上の懸念のため）
+    // (async () => {
+    //     try {
+    //         const additionalScripts = await fetch("https://oldtd.org/api/scripts", {
+    //             headers: otdtoken ? {
+    //                 Authorization: `Bearer ${otdtoken}`
+    //             } : undefined
+    //         }).then(r => r.json());
+    //         for(let script of additionalScripts) {
+    //             let scriptSource = await fetch(`https://oldtd.org/api/scripts/${script}`, {
+    //                 headers: otdtoken ? {
+    //                     Authorization: `Bearer ${otdtoken}`
+    //                 } : undefined
+    //             }).then(r => r.text());
+    //             let scriptElement = document.createElement("script");
+    //             scriptElement.innerHTML = scriptSource;
+    //             document.head.appendChild(scriptElement);
+    //         }
+    //     } catch(e) {
+    //         console.error(e);
+    //     }
+    // })();
 
     let int = setTimeout(function() {
         let badBody = document.querySelector('body:not(#injected-body)');
