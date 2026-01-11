@@ -13,7 +13,7 @@ if(location.hostname === 'twitter.com' && location.pathname === '/i/tweetdeck') 
 }
 
 // ツイート表示の文字数閾値（この値を超えると切り詰めてExpand tweetリンクを表示）
-const EXPAND_TWEET_THRESHOLD = 100;
+const EXPAND_TWEET_THRESHOLD = 85;
 
 function expandTweet(e, tweet_id) {
     e.preventDefault();
@@ -9080,7 +9080,7 @@ document.body.addEventListener("click", function (e) {
                     .then(function (e) {
                         return (
                             e.init({
-                                dsn: "https://363cb598d1cc4b0ba83656c03e1e3f92@sentry.io/1352207",
+                                dsn: "", // 無効化: Sentry へのエラー報告（セキュリティ上の懸念のため）
                                 release: TD.version,
                                 environment: "production",
                                 debug: !1,
