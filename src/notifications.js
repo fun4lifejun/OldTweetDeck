@@ -40,12 +40,13 @@ function createModal(html, className, onclose, canclose) {
     return modal;
 }
 
+// 無効化: oldtd.org からの通知取得（セキュリティ上の懸念のため）
 async function getNotifications() {
-    let notifs = await fetch('https://oldtd.org/notifications.json?t='+Date.now()).then(r => r.json());
-    let readNotifs = localStorage.getItem('readNotifications') ? JSON.parse(localStorage.getItem('readNotifications')) : [];
-    let notifsToDisplay = notifs.filter(notif => !readNotifs.includes(notif.id));
-
-    return notifsToDisplay;
+    // let notifs = await fetch('https://oldtd.org/notifications.json?t='+Date.now()).then(r => r.json());
+    // let readNotifs = localStorage.getItem('readNotifications') ? JSON.parse(localStorage.getItem('readNotifications')) : [];
+    // let notifsToDisplay = notifs.filter(notif => !readNotifs.includes(notif.id));
+    // return notifsToDisplay;
+    return []; // 常に空の配列を返す
 }
 function maxVersionCheck(ver, maxVer) {
     let verArr = ver.split('.');
