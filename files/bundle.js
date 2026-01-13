@@ -37731,7 +37731,7 @@ document.body.addEventListener("click", function (e) {
             (TD.services.TwitterStatus.prototype._generateHTMLText = function () {
                 let cleanText = this.text.replace(/ https:\/\/t.co\/[a-zA-Z0-9\-]{8,10}$/, "");
                 let textLength = cleanText.replace(/\n/g, "  ").length;
-                if (textLength > EXPAND_TWEET_THRESHOLD || cleanText.endsWith("…")) {
+                if (textLength > EXPAND_TWEET_THRESHOLD) {
                     let truncatedText = this.text.substr(0, EXPAND_TWEET_THRESHOLD) + "…";
                     this.htmlText = TD.util.transform(truncatedText, this.entities);
                     let id = this.retweetedStatus ? this.retweetedStatus.id : this.id;
